@@ -1,6 +1,40 @@
-body{
+body,html{
+  height: 100%;
   background: black;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  
+  
 }
-header{
-  background:purple;
+body{
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.header{
+  
+  top: 0;
+  color:white;
+  width: 100%;
+  
+}
+.main{
+  display: flex;
+  flex-grow: 1;
+}
+
+.content{
+  flex-grow: 1;
+  background-color:white
+  
+}
+.sidebar{
+  color :white;
+  
+  height: 100%;
+  
+  
 }

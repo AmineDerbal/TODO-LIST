@@ -1,7 +1,9 @@
 import "./style.css"
-//import todo from './todo.js';
+//import Todo from './todo.js';
 import header from './header.js';
+import mainContent from './mainContent.js';
 
 header();
+mainContent();
 
 
