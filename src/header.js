@@ -5,7 +5,7 @@ const header = () =>{
 
   const headerTitle = document.createElement('h1');
   headerTitle.classList.add('header-title');
-  headerTitle.textContent="My Todo List";
+  headerTitle.textContent="My Todo List App !";
   headerTag.appendChild(headerTitle);
 
 }

@@ -12,8 +12,21 @@ main.appendChild(sidebar);
 content.classList.add('content');
 main.appendChild(content);
 
+const project = document.createElement('div');
+project.classList.add('project');
+sidebar.appendChild(project);
 
-sidebar.textContent= "SHOW";
+const allTasks = document.createElement('a');
+allTasks.classList.add('all-tasks');
+allTasks.textContent = "All TASKS";
+project.appendChild(allTasks);
+
+const defaultProject = document.createElement('a');
+defaultProject.classList.add('default-project');
+defaultProject.textContent = "Default Project";
+project.appendChild(defaultProject);
+
+
 }
 
 
