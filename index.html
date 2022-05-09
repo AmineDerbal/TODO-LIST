@@ -8,6 +8,37 @@
   <title>TODO List</title>
 </head>
 <body>
+  <div class="modal" id="myModal">
+    <h1>Create  a New Task!</h1>
+   <div class="modal-content"> 
+<input type="text" id="taskName" placeholder="Task Name" required>
+<input type="text" id="taskDesc" placeholder="Description (Optional)">
+<div class="modal-date">
+
+  <label for="appt">Choose a due date for the task:</label>
+  <input type="date" id="appt" name="appt"
+  required>
+</div>
+<div class="modal-priority">
+      <label for="priority">Choose a priority:</label>
+      <select name="priority" id="priority">
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+    </div>
+    <div class="modal-project">
+      <label for="project">Choose a project:</label>
+      <select name="project" id="project">
+        <option value="home" selected>Home</option>                
+      </select> </div>
+      <div class="modal-button">
+<button type="button" id="addTask">Add Task</button>
+<button type="button" id="exitform">Exit!</button>
+</div>
+</div>
+</div>
+  
   
   <script src="main.js"></script>
 </body>
