@@ -53,6 +53,7 @@ body{
 }
 
 .modal{
+  display:none;
   position:fixed;
   z-index: 1;
   left: 0;
@@ -73,7 +74,7 @@ body{
   margin: 10% auto;
   padding:20px;
   border:1px solid #888;
-  width:80%;
+  width:70%;
 }
 
 .modal-content  input{
@@ -91,7 +92,7 @@ body{
   height:4rem;
 }
 
-.modal-date,.modal-priority,.modal-project,.modal-button{
+.modal-date,.modal-priority,.modal-project{
   display:flex;
   flex-direction: column;
   align-self: center;
@@ -105,5 +106,85 @@ body{
 }
 
 .modal-button{
-  gap: .5rem;
+  padding: .5rem 0;
+  display:flex;
+  gap: 3rem;
+  justify-content:center;
 }
+
+.button{
+  box-sizing: border-box;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  margin: 0;
+  outline: none;
+  cursor: pointer;
+  display: inline-block;
+  padding: 13px 23px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  touch-action: manipulation;
+  transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
+  user-select: none;
+  -webkit-user-select: none;
+  width: auto;
+}
+
+#addTask{
+  background-color: #FFFFFF;
+  border: 1px solid #222222;
+  border-radius: 8px;
+  color: #222222;
+  font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+  
+ 
+  
+}
+#addTask:focus-visible {
+  box-shadow: #222222 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
+  transition: box-shadow .2s;
+}
+
+.button:active{
+  transform: scale(.96);
+}
+#addTask:active {
+  background-color: #F7F7F7;
+  border-color: #000000;
+  
+}
+
+#addTask:disabled {
+  border-color: #DDDDDD;
+  color: #DDDDDD;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+#addTask:hover{
+  background-color: #000000;
+  color: #FFFFFF;
+}
+
+#cancelform {
+  background: #FF4742;
+  border: 1px solid #FF4742;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  color: #FFFFFF;
+  font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+  text-rendering: geometricprecision;
+  
+  vertical-align: middle;
+}
+
+#cancelform:hover,
+#cancelform:active {
+  background-color: initial;
+  background-position: 0 0;
+  color: #FF4742;
+}
+
