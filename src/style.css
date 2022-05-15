@@ -1,6 +1,12 @@
+:root{
+  --background-main-color: #000000;
+  --background-secondary-color: #ffffff;
+}
+
+
 body,html{
   height: 100%;
-  background: black;
+  background: var(--background-main-color);
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -19,10 +25,10 @@ body{
   justify-content:space-evenly;
   align-items:center;
   top: 0;
-  color:white;
+  color:var(--background-secondary-color);
   width: 100%;
   padding:1rem 0;
-  gap:-5rem;
+  
   
   
 }
@@ -188,3 +194,12 @@ body{
   color: #FF4742;
 }
 
+.bi-plus-lg{
+  font: size 1.5em;
+ 
+}
+
+#header-button{
+  background: var(--background-main-color);
+  color:white;
+}
