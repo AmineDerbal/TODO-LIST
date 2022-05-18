@@ -27,8 +27,16 @@ const header = () =>{
   headerButton.addEventListener('click',()=>{
     
     modal.style.display='block';
+    resetTaskModalValues();
     
   })
+
+  const resetTaskModalValues = ()=>{
+    document.getElementById("taskName").value = "";
+    document.getElementById("taskDesc").value = ""
+    document.getElementById("appt").value = "";
+    
+  }
 
   window.onclick = function(event) {
     if (event.target == modal) {
