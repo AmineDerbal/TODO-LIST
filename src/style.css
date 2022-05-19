@@ -80,13 +80,14 @@ body{
   margin: 10% auto;
   padding:20px;
   border:1px solid #888;
-  width:70%;
+  width:55%;
+  border-radius: 10px;
 }
 
 .modal-content  input{
   width:20rem;
   height:30px;
-  
+  overflow:auto;
   cursor: pointer;
   border-radius:8px;
   display:flex;
@@ -202,4 +203,10 @@ body{
 #header-button{
   background: var(--background-main-color);
   color:white;
+}
+
+#header-button:hover{
+  background: var(--background-secondary-color);
+  color:black;
+  transform: scale(1.2);
 }
