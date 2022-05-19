@@ -21,7 +21,7 @@ const header = () =>{
   headerButton.id='header-button';
   headerTask.appendChild(headerButton);
   
-  headerButton.innerHTML='<i class="bi bi-plus-lg"></i>  add Task';
+  headerButton.innerHTML='<i class="bi bi-plus-lg"></i>  New Task';
  
 
   headerButton.addEventListener('click',()=>{
