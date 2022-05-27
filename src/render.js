@@ -49,15 +49,21 @@ export const renderAllTasks = (task, number) => {
 
   todoTaskButton.addEventListener("click", (e) => {
     if (e.target.className !== "button edit-button") {
-      todoTaskButton.classList.toggle("active");
+      todoTaskInfo.classList.toggle("active");
       console.log(todoTaskButton.className);
       let panel = todoTaskButton.children[1];
       console.log(panel.className);
 
       if (panel.style.display == "block") {
-        panel.style.display = "none";
+        setTimeout(()=>{
+
+          panel.style.display = "none";
+        },80)
       } else {
-        panel.style.display = "block";
+        setTimeout(()=>{
+
+          panel.style.display = "block";
+        },80)
       }
     }
   });
