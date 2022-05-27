@@ -40,8 +40,11 @@ body{
 }
 
 .content{
-  flex-grow: 1;
-  background-color:white
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color:white;
   
 }
 .sidebar{
@@ -209,4 +212,72 @@ body{
   background: var(--background-secondary-color);
   color:black;
   transform: scale(1.2);
+}
+
+table {
+  border: 2px solid #eec9a4;
+  border-radius: 25px;
+}
+
+td{
+  border-left: 2px solid #eec9a4;
+}
+
+td:nth-child(1){
+  border-left: none;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+td:nth-child(3) {
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
+.content .todo-task-button{
+  margin: 0.5rem auto;
+}
+.content .todo-task{
+  width: 100%;
+  display: flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 0.5rem 0;
+  
+
+}
+
+.priority{
+  padding: 0 0.5rem;
+}
+.edit-button{
+  margin-right: 0.5rem;
+  font-size:1rem !important;
+  line-height:1rem !important;
+  padding: 0.5rem 0.7rem !important;
+}
+
+.todo-task-button{
+  background-color: #eee;
+  color: #444;cursor:pointer;
+  border:none;
+  outline:none;
+  transition:0.4s;
+  width: 60%;
+
+}
+.active, .todo-task-button:hover {
+  background-color: #ccc;
+}
+
+.content{
+  display: flex;
+
+}
+
+.panel{
+  display:none;
+  padding:0 1rem;
+  background-color:white;
+  overflow: hidden;
+  word-wrap: break-word;
 }

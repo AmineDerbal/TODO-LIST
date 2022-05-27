@@ -1,3 +1,5 @@
+ import {renderAllTasks} from './render.js';
+ 
  class Task {
   constructor(title,description,dueDate,priority,project,completed){
     this.title = title;
@@ -60,44 +62,8 @@ content.innerHTML = "";
 
 for (let i=0; i<tasksList.length; i++){
   console.log(tasksList[i].title);
-
-  let todoTaskInfo = document.createElement("div");
-  todoTaskInfo.className = "todo-task";
-content.appendChild(todoTaskInfo);
-
-
-  let priority = document.createElement("div");
-
-  priority.innerHTML= ` <table cellpadding="8" cellspacing="0">
-  <tr>
-    <td id="priority-1"></td>
-    <td id="priority-2"></td>
-    <td id="priority-3"></td>
-  </tr>
-</table> `;
-
-priority.className = `priority priority-$(tasksList[i].priority)`;
-
-todoTaskInfo.appendChild(priority);
-
-let taskTitle = document.createElement("span");
-taskTitle.className = 'task-title';
-taskTitle.textContent = tasksList[i].title;
-
-todoTaskInfo.appendChild(taskTitle);
-
-let taskDate = document.createElement("span");
-taskDate.className = 'task-date';
-taskDate.textContent = tasksList[i].dueDate;
-
-todoTaskInfo.appendChild(taskDate);
-
-let editButton = document.createElement("button");
-editButton.className = 'button edit-button';
-editButton.textContent = "Edit";
-
-todoTaskInfo.appendChild(editButton);
-
+   renderAllTasks(tasksList[i],i);
+  
 
  
 
