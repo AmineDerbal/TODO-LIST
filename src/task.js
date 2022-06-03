@@ -61,27 +61,8 @@ const content = document.querySelector(".content");
 content.innerHTML = "";
 
 for (let i=0; i<tasksList.length; i++){
-  console.log(tasksList[i].title);
    renderAllTasks(tasksList[i],i);
-  
-
- 
-
-
-/*let number = document.createElement("div");
-  number.id ='task-number-'+i;
-  number.classList.add('tasks-grid');
-  //content.appendChild(number);
-
-  
-
-  let title = document.createElement("p");
-  title.textContent = tasksList[i].title;
-  number.appendChild(title);*/
-
 }
-
-
 
 }
 

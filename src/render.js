@@ -1,9 +1,13 @@
 export const renderAllTasks = (task, number) => {
   const content = document.querySelector(".content");
 
+  let taskContainer = document.createElement("div");
+  taskContainer.className = "task-container";
+  content.appendChild(taskContainer);
+
   let todoTaskButton = document.createElement("div");
   todoTaskButton.className = "todo-task-button";
-  content.appendChild(todoTaskButton);
+  taskContainer.appendChild(todoTaskButton);
 
   let todoTaskInfo = document.createElement("div");
   todoTaskInfo.className = "todo-task";
@@ -35,11 +39,79 @@ export const renderAllTasks = (task, number) => {
 
   todoTaskInfo.appendChild(taskDate);
 
-  let editButton = document.createElement("button");
-  editButton.className = "button edit-button";
-  editButton.textContent = "Edit";
+  todoTaskButton.addEventListener("click", (e) => {
+    
+      groupButton.classList.toggle("active");
+      console.log(e.target.className);
+      let panel = todoTaskButton.children[1];
+      console.log(panel.className);
+      
+      if (panel.style.display == "block") {
+        setTimeout(()=>{
+          
+          panel.style.display = "none";
+        },80)
+      } else {
+        setTimeout(()=>{
+          
+          panel.style.display = "block";
+        },80)
+      }
+            
+    });
+    
 
-  todoTaskInfo.appendChild(editButton);
+  let groupButton = document.createElement("div");
+  groupButton.className = "group-button";
+
+  todoTaskInfo.appendChild(groupButton);
+
+  let optionButton = document.createElement("button");
+  optionButton.className = "option-button";
+  optionButton.innerHTML ='<i class="bi bi-three-dots-vertical"></i>';
+
+  groupButton.appendChild(optionButton);
+
+  let dropDown = document.createElement('div');
+  dropDown.className ="dropdown-content";
+
+  taskContainer.appendChild(dropDown);
+
+  let editButton = document.createElement('button');
+  editButton.className = "button dropdown-edit";
+  editButton.innerHTML = '<i class="bi bi-pencil"></i> Edit';
+
+  let removeButton = document.createElement('button');
+  removeButton.className = "button dropdown-remove";
+  removeButton.innerHTML = '<i class="bi bi-trash"></i> Remove';
+
+  dropDown.appendChild(editButton);
+  dropDown.appendChild(removeButton);
+
+  optionButton.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    if(dropDown.style.display == "none") {
+      dropDown.style.display="block";
+    }
+    else{
+      dropDown.style.display="none";
+    }
+    
+  });
+
+
+  editButton.addEventListener("click",(e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("hello");
+  })
+
+
+
+
+
+
 
   let taskPanel = document.createElement("div");
   taskPanel.className = "panel";
@@ -47,28 +119,5 @@ export const renderAllTasks = (task, number) => {
 
   todoTaskButton.appendChild(taskPanel);
 
-  todoTaskButton.addEventListener("click", (e) => {
-    if (e.target.className !== "button edit-button") {
-      todoTaskInfo.classList.toggle("active");
-      console.log(todoTaskButton.className);
-      let panel = todoTaskButton.children[1];
-      console.log(panel.className);
 
-      if (panel.style.display == "block") {
-        setTimeout(()=>{
-
-          panel.style.display = "none";
-        },80)
-      } else {
-        setTimeout(()=>{
-
-          panel.style.display = "block";
-        },80)
-      }
-    }
-  });
-
-  editButton.addEventListener("click", () => {
-    console.log("good");
-  });
 };

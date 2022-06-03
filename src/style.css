@@ -227,6 +227,15 @@ td:nth-child(3) {
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
 }
+.content .task-container{
+  width: 85%;
+  display:flex;
+  padding-left: 4rem;
+  margin: 0.5rem 0;
+  gap: 2rem;;
+  
+  
+}
 
 .content .todo-task{
   width: 100%;
@@ -236,33 +245,38 @@ td:nth-child(3) {
   padding: 0.5rem 0;
   }
 
-  .todo-task::after{
+  .group-button::after{
+  text-align: center;
+  vertical-align: bottom!important;
     content: "\02795";
     font-size:0.8rem;
-    margin-right: 0.3rem;
+    margin-right: 0.4rem;
     color: #777777;
     float: right !important;
+   
   }
 
 .priority{
   padding: 0 0.5rem;
 }
-.edit-button{
-  margin-right: 0.5rem;
+.option-button{
+  margin-right: 0.3rem;
   font-size:1rem !important;
   line-height:1rem !important;
-  padding: 0.5rem 0.7rem !important;
+  border:none;
+  width:fit-content;
+  cursor: pointer;
 }
 
 .todo-task-button{
-  margin: 0.5rem auto;
+  
   background-color: #eee;
   color: #444;
   cursor:pointer;
   border:none;
   outline:none;
   transition:0.4s;
-  width: 60%;
+  width: 70%;
 
 }
 .active, .todo-task-button:hover {
@@ -286,5 +300,31 @@ td:nth-child(3) {
   text-rendering: optimizeSpeed;
   
 }
+
+.option-button{
+  position: relative;
+}
+
+.dropdown-remove,.dropdown-edit{
+  position:relative;
+  height:fit-content!important;
+  width: fit-content!important;
+  padding:0.3rem 0.3rem !important;
+}
+
+.dropdown-content{
+  display:none;
+  overflow:hidden;
+  width:auto;
+}
+.dropdown-content button{
+  
+  margin-left:0.3rem;
+}
+
+
+
+
+
 
 
