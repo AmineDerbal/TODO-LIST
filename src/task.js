@@ -11,7 +11,7 @@
   }
 }
 
-let tasksList = [] ;
+ let tasksList = [] ;
 
 
 const addTask = document.getElementById('addTask');
@@ -33,7 +33,7 @@ addTask.addEventListener('click',()=>{
   console.log(task.dueDate);
   console.log(task.priority);
   console.log(task.project);
-})
+});
 
 const cancelModalTask = () => {
   const modal = document.querySelector(".modal");
@@ -57,12 +57,14 @@ if (!localStorage.getItem('tasks')){
 
 tasksList = JSON.parse(localStorage.getItem("tasks"));
 console.log(tasksList);
-const content = document.querySelector(".content"); 
-content.innerHTML = "";
 
-for (let i=0; i<tasksList.length; i++){
-   renderAllTasks(tasksList[i],i);
-}
+renderAllTasks(tasksList);
+ 
+
+
+
+
+
 
 }
 
