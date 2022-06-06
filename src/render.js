@@ -1,4 +1,4 @@
-
+import { displayAllTasks } from "./task";
 export const renderAllTasks = (tasksList) => {
   
   const content = document.querySelector(".content");
@@ -66,11 +66,26 @@ todoTaskButton.addEventListener("click",(e)=>{
   optionButton.innerHTML ='<i class="bi bi-three-dots-vertical"></i>';
   
   groupButton.appendChild(optionButton);
-      
+  
   let dropDown = document.createElement('div');
   dropDown.className ="dropdown-content";
   
   taskContainer.appendChild(dropDown);
+
+  optionButton.addEventListener("click", (e) => {
+    e.stopPropagation();
+    let drop = dropDown;
+
+  
+    if(drop.style.display === "none") {
+      drop.style.display="block";
+    }
+    else{
+      drop.style.display="none";
+    }
+    
+  });
+  
   
   let editButton = document.createElement('button');
   editButton.className = "button dropdown-edit";
@@ -83,25 +98,16 @@ todoTaskButton.addEventListener("click",(e)=>{
   dropDown.appendChild(editButton);
   dropDown.appendChild(removeButton);
             
-  optionButton.addEventListener("click", (e) => {
-    e.stopPropagation();
-  
-    if(dropDown.style.display == "none") {
-      dropDown.style.display="block";
-    }
-    else{
-      dropDown.style.display="none";
-    }
-    
-  });
    
   
-  
+    removeButton.addEventListener("click", ()=>{
+      removeTask(tasksList,i);
+    })
   
   
     editButton.addEventListener("click",(e)=>{
       e.preventDefault();
-      e.stopPropagation();
+      
       console.log("hello");
     })
 
@@ -132,4 +138,10 @@ const togglePanel =(panel) =>{
           panel.style.display = "block";
         },80)
       }
+}
+
+const removeTask = (tasks,number) =>{
+   tasks.splice(number,1);
+  localStorage.setItem("tasks",JSON.stringify(tasks));
+  displayAllTasks();
 }
