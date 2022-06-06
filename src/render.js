@@ -74,15 +74,10 @@ todoTaskButton.addEventListener("click",(e)=>{
 
   optionButton.addEventListener("click", (e) => {
     e.stopPropagation();
-    let drop = dropDown;
-
+    
+    dropDown.style.display = (dropDown.style.display === 'block') ? 'none':'block';
   
-    if(drop.style.display === "none") {
-      drop.style.display="block";
-    }
-    else{
-      drop.style.display="none";
-    }
+  
     
   });
   
