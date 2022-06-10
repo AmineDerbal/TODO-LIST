@@ -91,10 +91,11 @@ body{
   display:flex;
   align-self: center;
 }
+
+
 #taskDesc{
   margin: 1rem 0;
-  width: 35%;
-  height:4rem;
+  
 }
 
 .modal-date,.modal-priority,.modal-project{
@@ -260,11 +261,12 @@ td:nth-child(3) {
   padding: 0 0.5rem;
 }
 .option-button{
-  margin-right: 0.3rem;
+  margin-right: 0.4rem;
   font-size:1rem !important;
   line-height:1rem !important;
   border:none;
   width:fit-content;
+  height: fit-content;
   cursor: pointer;
 }
 
@@ -272,7 +274,6 @@ td:nth-child(3) {
   
   background-color: #eee;
   color: #444;
-  cursor:pointer;
   border:none;
   outline:none;
   transition:0.4s;
@@ -299,10 +300,6 @@ td:nth-child(3) {
   word-wrap: break-word;
   text-rendering: optimizeSpeed;
   
-}
-
-.option-button{
-  position: relative;
 }
 
 .dropdown-remove,.dropdown-edit{
