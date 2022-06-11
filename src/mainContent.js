@@ -1,12 +1,22 @@
+import { newProjectModal } from "./modal";
+
 const mainContent = ()=>{
  
 const main = document.createElement('div');
 main.classList.add('main');
 document.body.appendChild(main);
 
+newProjectModal();
+
 const sidebar = document.createElement('nav');
 sidebar.classList.add('sidebar');
 main.appendChild(sidebar);
+
+const newProject = document.createElement('button');
+newProject.classList.add('button');
+newProject.id="newProject";
+newProject.innerHTML = '<i class="bi bi-plus-lg"></i>  New Project';
+sidebar.appendChild(newProject);
 
   const content = document.createElement('div');
 content.classList.add('content');
