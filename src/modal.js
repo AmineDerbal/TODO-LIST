@@ -1,10 +1,8 @@
+import {displayProject} from "./render"
 
-
-export const newProjectModal = () =>{
-
+export const newProjectModal = () => {
   const projectModal = document.createElement("div");
-  projectModal.className = "modal";
-  projectModal.id = "projectModal";
+  projectModal.className = "modal projectModal";
 
   document.body.appendChild(projectModal);
 
@@ -17,12 +15,33 @@ export const newProjectModal = () =>{
   projectNameInput.id = "projectName";
   projectNameInput.type = "text";
   projectNameInput.placeholder = "Project Name";
-  projectNameInput.required = true;
- projectModalContent.appendChild(projectNameInput);
+  projectModalContent.appendChild(projectNameInput);
 
- const projectNameSubmitButton = document.createElement("button");
- projectNameSubmitButton.id = "ProjectSubmitButton";
- projectNameSubmitButton.classList.add("button");
- projectNameSubmitButton.textContent = "Submit";
- projectModalContent.appendChild(projectNameSubmitButton);
-}
+  const projectNameError = document.createElement("div");
+  projectNameError.className = "project-name-error";
+  projectModalContent.appendChild(projectNameError);
+
+  const projectNameSubmitButton = document.createElement("button");
+  projectNameSubmitButton.id = "ProjectSubmitButton";
+  projectNameSubmitButton.classList.add("button");
+  projectNameSubmitButton.textContent = "Submit";
+  projectModalContent.appendChild(projectNameSubmitButton);
+
+  projectNameSubmitButton.addEventListener("click",()=>{
+    if(projectNameInput.value == ""){
+      projectNameError.textContent = "please input project name";
+      return;
+    }
+    
+      projectNameError.textContent = "";
+    
+     let projectsList = JSON.parse(localStorage.getItem("projectsList"));
+     projectsList.push(projectNameInput.value);
+     
+     localStorage.setItem("projectsList", JSON.stringify(projectsList));
+     displayProject();
+     projectModal.style.display = "none";
+
+
+  })
+};
