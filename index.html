@@ -1,46 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>TODO List</title>
-</head>
-<body>
-  <div class="modal" id="myModal">
-    <h1>Create  a New Task!</h1>
-   <div class="modal-content"> 
-<input type="text" id="taskName" placeholder="Task Name" required>
-<!-- <input type="text" id="taskDesc" placeholder="Description (Optional)"> -->
-<textarea name="taskDesc" id="taskDesc" cols="20" rows="10" placeholder="Description (Optional)"></textarea>
-<div class="modal-date">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <label for="appt">Choose a due date for the task:</label>
-  <input type="date" id="appt" name="appt"
-  required>
-</div>
-<div class="modal-priority">
-      <label for="priority">Choose a priority:</label>
-      <select name="priority" id="priority">
-        <option value="High">High</option>
-        <option value="Medium">Medium</option>
-        <option value="Low">Low</option>
-      </select>
+    <title>TODO List</title>
+  </head>
+  <body>
+    <div class="modal myModal">
+      <h1>Create a New Task!</h1>
+      <div class="modal-content">
+        <input type="text" id="taskName" placeholder="Task Name" />
+        <div class="text-erro"></div>
+        <textarea
+          name="taskDesc"
+          id="taskDesc"
+          cols="20"
+          rows="10"
+          placeholder="Description (Optional)"
+        ></textarea>
+        <div class="modal-date">
+          <label for="appt">Choose a due date for the task:</label>
+          <input type="date" id="appt" name="appt" />
+        </div>
+        <div class="date-error"></div>
+        <div class="modal-priority">
+          <label for="priority">Choose a priority:</label>
+          <select name="priority" id="priority">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+        <div class="modal-project">
+          <label for="project">Choose a project:</label>
+          <select name="project" id="project">
+            
+          </select>
+        </div>
+        <div class="modal-button">
+          <button type="button" class="button" id="addTask">Add Task</button>
+          <button type="button" class="button" id="cancelform">Cancel</button>
+        </div>
+      </div>
     </div>
-    <div class="modal-project">
-      <label for="project">Choose a project:</label>
-      <select name="project" id="project">
-        <option value="default" selected>Default</option>                
-      </select> </div>
-      <div class="modal-button">
-<button type="button" class="button" id="addTask">Add Task</button>
-<button type="button" class="button" id="cancelform">Cancel</button>
-</div>
-</div>
-</div>
-  
-  
-  <script src="main.js"></script>
-</body>
+
+    <script src="main.js"></script>
+  </body>
 </html>
