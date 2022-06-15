@@ -33,6 +33,7 @@ addTask.addEventListener('click',()=>{
   console.log(task.dueDate);
   console.log(task.priority);
   console.log(task.project);
+  displayAllTasks();
 });
 
 const cancelModalTask = () => {
