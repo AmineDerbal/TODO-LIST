@@ -8,13 +8,21 @@ header();
 mainContent();
 displayAllTasks();
 
-const taskModal = document.querySelector(".myModal");
-const projectModal = document.querySelector(".projectModal");
 
 window.onclick = function (e) {
+  const taskModal = document.querySelector(".myModal");
+  const projectModal = document.querySelector(".projectModal");
+  const editProjectModal = document.querySelector(".edit-project-modal");
+  
   if (e.target == taskModal) {
     taskModal.style.display = "none";
-  } else if (e.target == projectModal) {
+    return;
+  }  if (e.target == projectModal) {
     projectModal.style.display = "none";
+    document.getElementById("projectName").value = "";
+    return;
+  }
+  if(e.target == editProjectModal) {
+    editProjectModal.parentElement.removeChild(editProjectModal);
   }
 };
