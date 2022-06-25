@@ -3,11 +3,15 @@ export const renderAllTasks = (tasksList) => {
   const content = document.querySelector(".content");
   content.innerHTML = "";
   for (let taskPosition = 0; taskPosition < tasksList.length; taskPosition++) {
-    let taskContainer = document.createElement("div");
+   content.appendChild(renderProjectTask(tasksList,taskPosition));
+  }
+};
+export const renderProjectTask = (tasksList, taskPosition)=>{
+  let taskContainer = document.createElement("div");
     taskContainer.className = "task-container";
-    content.appendChild(taskContainer);
+   // content.appendChild(taskContainer);
 
-    let todoTaskButton = document.createElement("div");
+   let todoTaskButton = document.createElement("div");
     todoTaskButton.className = "todo-task-button";
     taskContainer.appendChild(todoTaskButton);
 
@@ -24,14 +28,13 @@ export const renderAllTasks = (tasksList) => {
   </tr>
  </table> `;
 
-    priority.className = `priority priority-$(task.priority)`;
+ priority.className = `priority priority-$(task.priority)`;
 
-    todoTaskInfo.appendChild(priority);
+ todoTaskInfo.appendChild(priority);
 
-    let taskTitle = document.createElement("span");
+ let taskTitle = document.createElement("span");
     taskTitle.className = "task-title";
     taskTitle.textContent = tasksList[taskPosition].title;
-
     todoTaskInfo.appendChild(taskTitle);
 
     let taskDate = document.createElement("span");
@@ -39,23 +42,20 @@ export const renderAllTasks = (tasksList) => {
     taskDate.textContent = tasksList[taskPosition].dueDate;
 
     todoTaskInfo.appendChild(taskDate);
-    
+
     let projectsList = JSON.parse(localStorage.getItem("projectsList"));
     let taskProjectName = document.createElement("span");
     taskProjectName.className = "task-project";
     taskProjectName.textContent = projectsList[tasksList[taskPosition].project];
-
     todoTaskInfo.appendChild(taskProjectName);
 
     let groupButton = document.createElement("div");
     groupButton.className = "group-button";
-
     todoTaskInfo.appendChild(groupButton);
 
     todoTaskButton.addEventListener("click", (e) => {
       groupButton.classList.toggle("active");
       let panel = todoTaskButton.children[1];
-     
 
       togglePanel(panel);
     });
@@ -68,7 +68,6 @@ export const renderAllTasks = (tasksList) => {
 
     let dropDown = document.createElement("div");
     dropDown.className = "dropdown-content";
-
     taskContainer.appendChild(dropDown);
 
     optionButton.addEventListener("click", (e) => {
@@ -94,7 +93,8 @@ export const renderAllTasks = (tasksList) => {
     });
 
     editButton.addEventListener("click", (e) => {
-      e.preventDefault();
+     e.stopPropagation();
+      editTask(tasksList, taskPosition);
 
       console.log("hello");
     });
@@ -104,8 +104,11 @@ export const renderAllTasks = (tasksList) => {
     taskPanel.textContent = tasksList[taskPosition].description;
 
     todoTaskButton.appendChild(taskPanel);
-  }
-};
+
+    return taskContainer;
+
+
+}
 
 const togglePanel = (panel) => {
   if (panel.style.display == "block") {
@@ -119,100 +122,218 @@ const togglePanel = (panel) => {
   }
 };
 
-const removeTask = (tasks, number) => {
-  tasks.splice(number, 1);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+const removeTask = (tasksList, taskPosition) => {
+  tasksList.splice(taskPosition, 1);
+  localStorage.setItem("tasks", JSON.stringify(tasksList));
   displayAllTasks();
 };
 
+const editTask = (tasks, taskPosition) => {
+  const modal = document.createElement("div");
+  modal.className = "modal modal-edit-task";
+  document.body.appendChild(modal);
+
+  const modalContent = document.createElement("div");
+  modalContent.className = "modal-content";
+  modal.appendChild(modalContent);
+
+  const h1 = document.createElement("h1");
+  h1.textContent = "Update The Task";
+  modalContent.appendChild(h1);
+
+  const taskName = document.createElement("input");
+  taskName.type = "text";
+  taskName.placeholder = "Task Name";
+  modalContent.appendChild(taskName);
+
+  const taskError = document.createElement("div");
+  taskError.className = "task-error";
+  modalContent.appendChild(taskError);
+
+  const taskDescription = document.createElement("textarea");
+  taskDescription.className = "task-desc";
+  taskDescription.name = "taskDesc";
+  taskDescription.cols = "20";
+  taskDescription.rows = "10";
+  taskDescription.placeholder = "Description (Optional)";
+  modalContent.appendChild(taskDescription);
+
+  const modalDate = document.createElement("div");
+  modalDate.className = "modal-date";
+  modalContent.appendChild(modalDate);
+
+  const apptLabel = document.createElement("label");
+  apptLabel.for = "appt";
+  apptLabel.textContent = "Choose a due date for the task:";
+  const date = document.createElement("input");
+  date.type = "date";
+  date.name = "appt";
+  modalDate.appendChild(apptLabel);
+  modalDate.appendChild(date);
+
+  const dateError = document.createElement("div");
+  dateError.className = "date-error";
+  modalContent.appendChild(dateError);
+
+  const modalPriority = document.createElement("div");
+  modalPriority.className = "modal-priority";
+  modalContent.appendChild(modalPriority);
+
+  const priorityLabel = document.createElement("label");
+  priorityLabel.for = "priority";
+  priorityLabel.textContent = "Choose a priority:";
+  modalPriority.appendChild(priorityLabel);
+
+  const priority = document.createElement("select");
+  priority.name = "priority";
+  modalPriority.appendChild(priority);
+
+  const optionHigh = document.createElement("option");
+  optionHigh.value = "High";
+  optionHigh.textContent = "High";
+  priority.appendChild(optionHigh);
+
+  const optionMedium = document.createElement("option");
+  optionMedium.value = "Medium";
+  optionMedium.textContent = "Medium";
+  priority.appendChild(optionMedium);
+
+  const optionLow = document.createElement("option");
+  optionLow.value = "Low";
+  optionLow.textContent = "Low";
+  priority.appendChild(optionLow);
+
+  const modalProject = document.createElement("div");
+  modalProject.className = "modal-project";
+  modalContent.appendChild(modalProject);
+
+  const projectLabel = document.createElement("label");
+  projectLabel.textContent = "Choose a project:";
+  projectLabel.for = "project";
+  modalProject.appendChild(projectLabel);
+
+  const project = document.createElement("select");
+  project.name="project";
+  const projectsList = JSON.parse(localStorage.getItem("projectsList"));
+
+  for (let i = 0; i < projectsList.length; i++) {
+  let option = document.createElement("option");
+    option.value = i;
+    option.innerHTML = projectsList[i];
+    project.appendChild(option);
+  }
+  modalProject.appendChild(project);
+
+  const modalButton = document.createElement("div");
+  modalButton.className = "modal-button";
+  modalContent.appendChild(modalButton);
+
+  const updateTaskButton = document.createElement("button");
+  updateTaskButton.className = "button";
+  updateTaskButton.id = "updateTask";
+  updateTaskButton.textContent = "Update Task";
+  modalButton.appendChild(updateTaskButton);
+
+  const cancelForm = document.createElement("button");
+  cancelForm.className = "button";
+  cancelForm.id = "cancelUpdateform";
+  cancelForm.textContent = "Cancel";
+modalButton.appendChild(cancelForm);
+
+cancelForm.addEventListener("click", () =>{
+  document.body.removeChild(modal);
+})
+
+};
 
 export const displayProject = () => {
   const project = document.querySelector(".project");
   const projects = document.getElementById("project");
-  let projectsList = JSON.parse(localStorage.getItem('projectsList'));
-  project.innerHTML="";
-  projects.innerHTML="";
-  
-  if (projectsList.length == 0){return;}
-    
-  
+  let projectsList = JSON.parse(localStorage.getItem("projectsList"));
+  project.innerHTML = "";
+  projects.innerHTML = "";
+
+  if (projectsList.length == 0) {
+    return;
+  }
+
   for (let i = 0; i < projectsList.length; i++) {
     const list = document.createElement("ul");
     list.setAttribute("data-project", i);
     list.id = "project" + i;
-   project.appendChild(list);
+    project.appendChild(list);
 
     const sideNav = document.createElement("button");
     sideNav.className = "side-nav";
     sideNav.innerHTML = '<i class="bi bi-three-dots-vertical"></i>';
     list.appendChild(sideNav);
 
-    const dropDown = document.createElement('ul');
+    const dropDown = document.createElement("ul");
     dropDown.className = "dropdown-project";
     sideNav.appendChild(dropDown);
 
-    const projectEdit = document.createElement('li');
-    const projectDelete = document.createElement('li');
+    const projectEdit = document.createElement("li");
+    const projectDelete = document.createElement("li");
 
     dropDown.appendChild(projectEdit);
     dropDown.appendChild(projectDelete);
 
-    const projectEditButton = document.createElement('button');
+    const projectEditButton = document.createElement("button");
     projectEditButton.className = "button project-button";
     projectEditButton.textContent = "Edit";
     projectEdit.appendChild(projectEditButton);
 
-    projectEditButton.addEventListener("click",(e)=>{
+    projectEditButton.addEventListener("click", (e) => {
       e.stopPropagation();
       hideAllDropDownElements();
-      editProject(projectsList[i],i);
-    })
+      editProject(projectsList[i], i);
+    });
 
-    const projectDeleteButton = document.createElement('button');
+    const projectDeleteButton = document.createElement("button");
     projectDeleteButton.className = "button project-button";
     projectDeleteButton.textContent = "Delete";
     projectEdit.appendChild(projectDeleteButton);
 
-    sideNav.addEventListener('click', (e)=>{
+    sideNav.addEventListener("click", (e) => {
       e.stopPropagation();
 
-      dropDown.style.display = dropDown.style.display==='block'? 'none' : 'block';
-    })
+      dropDown.style.display =
+        dropDown.style.display === "block" ? "none" : "block";
+    });
 
-    
-    projectDeleteButton.addEventListener("click",(e)=>{
+    projectDeleteButton.addEventListener("click", (e) => {
       e.stopPropagation();
       deleteProject(i);
-    })
+    });
 
     const Name = document.createElement("span");
     Name.textContent = projectsList[i];
     list.appendChild(Name);
 
-    
     let option = document.createElement("option");
-     option.value = i;
-     option.innerHTML = projectsList[i];
-     projects.appendChild(option);
+    option.value = i;
+    option.innerHTML = projectsList[i];
+    projects.appendChild(option);
   }
 };
 
 const deleteProject = (projectListPosition) => {
-let projectsList = JSON.parse(localStorage.getItem('projectsList'));
-deleteAllTasksOfProject(projectListPosition);
-console.log(projectsList);
-projectsList.splice(projectListPosition,1);
-console.log(projectsList);
-localStorage.setItem('projectsList', JSON.stringify(projectsList));
-displayProject();
+  let projectsList = JSON.parse(localStorage.getItem("projectsList"));
+  deleteAllTasksOfProject(projectListPosition);
+  console.log(projectsList);
+  projectsList.splice(projectListPosition, 1);
+  console.log(projectsList);
+  localStorage.setItem("projectsList", JSON.stringify(projectsList));
+  displayProject();
 
-if (!localStorage.getItem('tasks')){return;}
+  if (!localStorage.getItem("tasks")) {
+    return;
+  }
 
-displayAllTasks();
+  displayAllTasks();
+};
 
-}
-
-const editProject = (projectName,number) =>{
+const editProject = (projectName, number) => {
   const editProjectModal = document.createElement("div");
   editProjectModal.className = "modal edit-project-modal";
   document.body.appendChild(editProjectModal);
@@ -237,68 +358,57 @@ const editProject = (projectName,number) =>{
   projectNameSubmitButton.textContent = "Submit";
   projectModalContent.appendChild(projectNameSubmitButton);
 
-  projectNameSubmitButton.addEventListener("click",()=>{
-    if (editProjectNameInput.value == ""){
+  projectNameSubmitButton.addEventListener("click", () => {
+    if (editProjectNameInput.value == "") {
       projectNameError.textContent = "please input project name";
       return;
     }
-    if (editProjectNameInput.value == projectName){
+    if (editProjectNameInput.value == projectName) {
       projectNameError.textContent = "this is already your project name";
       return;
     }
-    projectNameError.textContent ="";
+    projectNameError.textContent = "";
 
     let projectsList = JSON.parse(localStorage.getItem("projectsList"));
     projectsList[number] = editProjectNameInput.value;
     localStorage.setItem("projectsList", JSON.stringify(projectsList));
-    let tasksList = JSON.parse(localStorage.getItem('tasks'));
+    let tasksList = JSON.parse(localStorage.getItem("tasks"));
     renderAllTasks(tasksList);
     displayProject();
 
-     
     editProjectModal.parentElement.removeChild(editProjectModal);
+  });
+};
 
-
-
-  })
-
-} 
-
-const deleteAllTasksOfProject = (projectListPosition) =>{
-  let tasksList = JSON.parse(localStorage.getItem('tasks'));
-  console.log ('delete');
+const deleteAllTasksOfProject = (projectListPosition) => {
+  let tasksList = JSON.parse(localStorage.getItem("tasks"));
+  console.log("delete");
   console.log(tasksList);
-  
-  for (let i = 0; i<tasksList.length; i++){
-    console.log(tasksList[i].project);
-    if (tasksList[i].project == projectListPosition){
 
+  for (let i = 0; i < tasksList.length; i++) {
+    console.log(tasksList[i].project);
+    if (tasksList[i].project == projectListPosition) {
       tasksList.splice(i, 1);
-      localStorage.setItem("tasks",JSON.stringify(tasksList));
+      localStorage.setItem("tasks", JSON.stringify(tasksList));
       deleteAllTasksOfProject(projectListPosition);
       return;
-    }   
+    }
   }
-
-  
-
-}
+};
 
 export const hideAllDropDownElements = () => {
-
   const tasksDropDown = document.querySelectorAll(".dropdown-content");
-  const projectsDropDown = document.querySelectorAll(".dropdown-project") ;
+  const projectsDropDown = document.querySelectorAll(".dropdown-project");
 
- tasksDropDown.forEach(function(task){
-    if(task.style.display == "block"){
+  tasksDropDown.forEach(function (task) {
+    if (task.style.display == "block") {
       task.style.display = "none";
     }
-  })
+  });
 
-  projectsDropDown.forEach(function(project){
-    if(project.style.display == "block"){
+  projectsDropDown.forEach(function (project) {
+    if (project.style.display == "block") {
       project.style.display = "none";
     }
-  })
-
-}
+  });
+};
