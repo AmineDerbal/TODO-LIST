@@ -1,4 +1,6 @@
-const modal = document.querySelector(".modal");
+import {hideAllDropDownElements} from './render';
+
+const modal = document.querySelector(".myModal");
 const header = () =>{
   const headerTag = document.createElement('header');
   headerTag.classList.add('header');
@@ -27,6 +29,7 @@ const header = () =>{
   headerButton.addEventListener('click',()=>{
     
     modal.style.display='block';
+    hideAllDropDownElements();
     resetTaskModalValues();
     
   })
@@ -38,12 +41,7 @@ const header = () =>{
     
   }
 
-  window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
-
+  
 }
 
 
