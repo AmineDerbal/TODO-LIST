@@ -9,7 +9,6 @@ export const renderAllTasks = (tasksList) => {
 export const renderProjectTask = (tasksList, taskPosition)=>{
   let taskContainer = document.createElement("div");
     taskContainer.className = "task-container";
-   // content.appendChild(taskContainer);
 
    let todoTaskButton = document.createElement("div");
     todoTaskButton.className = "todo-task-button";
@@ -95,8 +94,6 @@ export const renderProjectTask = (tasksList, taskPosition)=>{
     editButton.addEventListener("click", (e) => {
      e.stopPropagation();
       editTask(tasksList, taskPosition);
-
-      console.log("hello");
     });
 
     let taskPanel = document.createElement("div");
@@ -114,11 +111,11 @@ const togglePanel = (panel) => {
   if (panel.style.display == "block") {
     setTimeout(() => {
       panel.style.display = "none";
-    }, 80);
+    }, 150);
   } else {
     setTimeout(() => {
       panel.style.display = "block";
-    }, 80);
+    }, 150);
   }
 };
 
@@ -144,10 +141,11 @@ const editTask = (tasks, taskPosition) => {
   const taskName = document.createElement("input");
   taskName.type = "text";
   taskName.placeholder = "Task Name";
+  taskName.value = tasks[taskPosition].title;
   modalContent.appendChild(taskName);
 
   const taskError = document.createElement("div");
-  taskError.className = "task-error";
+  taskError.className = "error task-error";
   modalContent.appendChild(taskError);
 
   const taskDescription = document.createElement("textarea");
@@ -155,7 +153,7 @@ const editTask = (tasks, taskPosition) => {
   taskDescription.name = "taskDesc";
   taskDescription.cols = "20";
   taskDescription.rows = "10";
-  taskDescription.placeholder = "Description (Optional)";
+  taskDescription.value = tasks[taskPosition].description;  
   modalContent.appendChild(taskDescription);
 
   const modalDate = document.createElement("div");
@@ -168,11 +166,12 @@ const editTask = (tasks, taskPosition) => {
   const date = document.createElement("input");
   date.type = "date";
   date.name = "appt";
+  date.value = tasks[taskPosition].dueDate;
   modalDate.appendChild(apptLabel);
   modalDate.appendChild(date);
 
   const dateError = document.createElement("div");
-  dateError.className = "date-error";
+  dateError.className = "error date-error";
   modalContent.appendChild(dateError);
 
   const modalPriority = document.createElement("div");
@@ -187,22 +186,23 @@ const editTask = (tasks, taskPosition) => {
   const priority = document.createElement("select");
   priority.name = "priority";
   modalPriority.appendChild(priority);
-
+  
   const optionHigh = document.createElement("option");
   optionHigh.value = "High";
   optionHigh.textContent = "High";
   priority.appendChild(optionHigh);
-
+  
   const optionMedium = document.createElement("option");
   optionMedium.value = "Medium";
   optionMedium.textContent = "Medium";
   priority.appendChild(optionMedium);
-
+  
   const optionLow = document.createElement("option");
   optionLow.value = "Low";
   optionLow.textContent = "Low";
   priority.appendChild(optionLow);
-
+  priority.value = tasks[taskPosition].priority;
+  
   const modalProject = document.createElement("div");
   modalProject.className = "modal-project";
   modalContent.appendChild(modalProject);
@@ -222,6 +222,7 @@ const editTask = (tasks, taskPosition) => {
     option.innerHTML = projectsList[i];
     project.appendChild(option);
   }
+  project.value=tasks[taskPosition].project;
   modalProject.appendChild(project);
 
   const modalButton = document.createElement("div");
@@ -233,6 +234,23 @@ const editTask = (tasks, taskPosition) => {
   updateTaskButton.id = "updateTask";
   updateTaskButton.textContent = "Update Task";
   modalButton.appendChild(updateTaskButton);
+
+  updateTaskButton.addEventListener("click", ()=>{
+    if(taskName.value === "") taskError.textContent="Please input a title for the task";
+    if(date.value === "") dateError.textContent="Please input a date for the task";
+
+    if((taskName.value === "")||(date.value === "")) return;
+
+    tasks[taskPosition].title = taskName.value;
+    tasks[taskPosition].description = taskDescription.value;
+    tasks[taskPosition].dueDate = date.value;
+    tasks[taskPosition].priority = priority.value;
+    tasks[taskPosition].project = project.value;
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    displayAllTasks();
+    document.body.removeChild(modal);
+  })
 
   const cancelForm = document.createElement("button");
   cancelForm.className = "button";
@@ -260,8 +278,10 @@ export const displayProject = () => {
   for (let i = 0; i < projectsList.length; i++) {
     const list = document.createElement("ul");
     list.setAttribute("data-project", i);
+    list.className = "project-list"
     list.id = "project" + i;
     project.appendChild(list);
+    list.addEventListener("click", displayProjectToggle);
 
     const sideNav = document.createElement("button");
     sideNav.className = "side-nav";
@@ -315,6 +335,7 @@ export const displayProject = () => {
     option.innerHTML = projectsList[i];
     projects.appendChild(option);
   }
+
 };
 
 const deleteProject = (projectListPosition) => {
@@ -412,3 +433,17 @@ export const hideAllDropDownElements = () => {
     }
   });
 };
+
+const displayProjectToggle = (event) =>{
+  let projectList = Array.from(document.querySelectorAll(".project-list"));
+  
+  projectList.forEach((element) =>{
+     element.classList.remove("project-active");
+
+  });
+  if(event.target.matches("span")){
+    event.target.parentElement.classList.toggle("project-active");
+   return;
+  }
+  event.target.classList.toggle("project-active");
+}
