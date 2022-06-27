@@ -8,21 +8,29 @@ header();
 mainContent();
 displayAllTasks();
 
+const taskModal = document.querySelector(".myModal");
+const projectModal = document.querySelector(".projectModal");
 
 window.onclick = function (e) {
-  const taskModal = document.querySelector(".myModal");
-  const projectModal = document.querySelector(".projectModal");
-  const editProjectModal = document.querySelector(".edit-project-modal");
+  if((document.querySelector(".modal-edit-task") !== null) && (e.target == document.querySelector(".modal-edit-task"))){
+  document.body.removeChild(document.querySelector(".modal-edit-task"));
+  }
+
+ if((document.querySelector(".edit-project-modal")!== null) && (e.target == document.querySelector(".edit-project-modal"))) {
+  document.body.removeChild(document.querySelector(".edit-project-modal"));
+ }
   
   if (e.target == taskModal) {
-    taskModal.style.display = "none";
-    return;
-  }  if (e.target == projectModal) {
+    taskModal.style.display = "none";  
+  } 
+  
+  
+  if (e.target == projectModal) {
     projectModal.style.display = "none";
     document.getElementById("projectName").value = "";
-    return;
+    
   }
-  if(e.target == editProjectModal) {
+ /* if(e.target == editProjectModal) {
     editProjectModal.parentElement.removeChild(editProjectModal);
-  }
+  }*/
 };
