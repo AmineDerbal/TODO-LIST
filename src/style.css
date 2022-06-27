@@ -45,7 +45,7 @@ body{
 .sidebar{
   color :white;
   width:15%;
-  padding:0.5rem 2rem;
+  padding:0.5rem 0.1rem;
   height: 100%;
   
   
@@ -54,29 +54,82 @@ body{
 .project{
   display:flex;
   flex-direction:column;
-  gap: 0.5rem;
+  gap: 1rem;
+  width: 100%;
+}
+.project ul{
+  margin:0;
+  padding: 0.7rem;;
+  align-items:left;
+} 
+
+ul{
+  list-style: none;
+}
+.side-nav{
+  position: relative;
+  display: inline-block;
+  overflow:visible !important;
+}
+.dropdown-project{
+display:none ;
+position: absolute;
+z-index: 1;
+}
+.project-button{
+  margin: 0.3rem 0 !important; 
+  width: 4.2rem!important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.5rem !important;
+  padding:0.3rem 0.7rem !important;
+  background-color: #222222;
+  color: rgb(122, 162, 35);
+  border: 1px solid rgb(122, 162, 35);
+}
+.project-list{
+  cursor: pointer;
+ font-size: 1.2rem;
+}
+.project-list:hover{
+background-color: #a5ce1e;
+
+}
+.project-active{
+  background-color: #a5ce1e;
+
 }
 
-.modal{
-  display:none;
-  position:fixed;
+.modal{ 
+ position:fixed;
   z-index: 1;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   overflow:auto;
+  overflow-y: scroll;
   background-color:rgba(0,0,0);
   background-color:rgba(0,0,0,0.4);
 }
+.myModal{
+  display:none;
+}
+
+.modal h1{
+  text-align: center;
+}
 
 .modal-content{
+  position:fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   display:flex;
   flex-direction:column; 
   justify-content: flex-start;
   align-content: center;
   background-color: #fefefe;
-  margin: 10% auto;
   padding:20px;
   border:1px solid #888;
   width:55%;
@@ -93,8 +146,8 @@ body{
   align-self: center;
 }
 
-#projectModal{
-  display:block !important;
+.projectModal{
+  display:none;
 }
 
 .project-modal-content{
@@ -107,19 +160,24 @@ body{
   width:fit-content;
   margin:10% auto;
   padding: 2rem;
+  border-radius:10px;
 }
 .project-modal-content input{
   width:20rem;
   height:30px;
   overflow:auto;
   cursor: pointer;
-  border-radius:8px;
-  display:flex;
-  align-self: center;
+ margin-bottom:.5rem;
+ 
+}
+
+#ProjectSubmitButton{
+  background-color: #4CAF50;
+  color:white;
 
 }
 
-#taskDesc{
+.task-desc{
   margin: 1rem 0;
   
 }
@@ -177,7 +235,7 @@ body{
   width: auto;
 }
 
-#addTask{
+#addTask,#updateTask {
   background-color: #FFFFFF;
   border: 1px solid #222222;
   border-radius: 8px;
@@ -213,7 +271,7 @@ body{
   color: #FFFFFF;
 }
 
-#cancelform {
+#cancelform,#cancelUpdateform {
   background: #FF4742;
   border: 1px solid #FF4742;
   border-radius: 6px;
@@ -298,14 +356,20 @@ td:nth-child(3) {
 .priority{
   padding: 0 0.5rem;
 }
-.option-button{
+.option-button, .side-nav{
   margin-right: 0.4rem;
-  font-size:1rem !important;
-  line-height:1rem !important;
+  font-size:1rem ;
+  line-height:1rem;
   border:none;
   width:fit-content;
   height: fit-content;
   cursor: pointer;
+}
+
+.side-nav{
+  margin-right: 0.2rem !important;
+  background-color:inherit;
+  color: white;
 }
 
 .todo-task-button{
@@ -357,9 +421,7 @@ td:nth-child(3) {
   margin-left:0.3rem;
 }
 
-
-
-
-
-
-
+.error{
+  color:red;
+  text-align: center;
+}
