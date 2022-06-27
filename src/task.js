@@ -15,6 +15,18 @@ let tasksList = [];
 
 const addTask = document.getElementById("addTask");
 addTask.addEventListener("click", () => {
+    if(document.getElementById("taskName").value === ""){
+      document.querySelector('.task-error').textContent = "please input a title for the task";
+    }
+
+    if(document.getElementById("appt").value === ""){
+      document.querySelector('.date-error').textContent = "please input a date for the task";
+    }
+
+    if((document.getElementById("taskName").value === "")||(document.getElementById("appt").value==="")){
+      return;
+    }
+    
   let task = new Task(
     document.getElementById("taskName").value,
     document.getElementById("taskDesc").value,
@@ -22,6 +34,8 @@ addTask.addEventListener("click", () => {
     document.getElementById("priority").value,
     document.getElementById("project").value
   );
+  document.querySelector('.task-error').textContent = "";
+  document.querySelector('.date-error').textContent = "";  
   tasksList.push(task);
   localStorage.setItem("tasks", JSON.stringify(tasksList));
   cancelModalTask();
@@ -46,7 +60,6 @@ export const displayAllTasks = () => {
   }
 
   tasksList = JSON.parse(localStorage.getItem("tasks"));
-  console.log(tasksList);
 
   renderAllTasks(tasksList);
 };
