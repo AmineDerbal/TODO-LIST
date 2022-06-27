@@ -9,13 +9,14 @@
   </head>
   <body>
     <div class="modal myModal">
-      <h1>Create a New Task!</h1>
       <div class="modal-content">
+        <h1>Create a New Task!</h1>
         <input type="text" id="taskName" placeholder="Task Name" />
-        <div class="text-erro"></div>
+        <div class=" error task-error"></div>
         <textarea
           name="taskDesc"
           id="taskDesc"
+          class="task-desc"
           cols="20"
           rows="10"
           placeholder="Description (Optional)"
@@ -24,7 +25,7 @@
           <label for="appt">Choose a due date for the task:</label>
           <input type="date" id="appt" name="appt" />
         </div>
-        <div class="date-error"></div>
+        <div class="error date-error"></div>
         <div class="modal-priority">
           <label for="priority">Choose a priority:</label>
           <select name="priority" id="priority">
