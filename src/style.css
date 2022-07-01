@@ -308,7 +308,7 @@ background-color: #a5ce1e;
 
 table {
   border: 2px solid #eec9a4;
-  border-radius: 25px;
+
 }
 
 td{
@@ -317,21 +317,32 @@ td{
 
 td:nth-child(1){
   border-left: none;
-  border-top-left-radius: 25px;
-  border-bottom-left-radius: 25px;
 }
-td:nth-child(3) {
-  border-top-right-radius: 25px;
-  border-bottom-right-radius: 25px;
+.priority-1 td:nth-child(2),
+.priority-1 td:nth-child(3) {
+    background-color: transparent !important;
 }
-.content .task-container{
+.priority-2 td:nth-child(3) {
+    background-color: transparent !important;
+}
+
+#priority-1 {
+  background-color: rgb(68, 161, 68);
+}
+#priority-2 {
+  background-color: rgb(217, 217, 36);
+}
+#priority-3 {
+  background-color: #ef0e0e;
+}
+
+ .task-container{
   width: 95%;
   display:flex;
   padding-left: 4rem;
   margin: 0.5rem 0;
-  gap: 2rem;;
-  
-  
+  gap: 2rem;
+   
 }
 
 .content .todo-task{
@@ -341,6 +352,7 @@ td:nth-child(3) {
   align-items:center;
   padding: 0.5rem 0;
   }
+  
 
   .group-button::after{
   text-align: center;
@@ -380,6 +392,7 @@ td:nth-child(3) {
   outline:none;
   transition:0.4s;
   width: 80%;
+  
 
 }
 .active, .todo-task-button:hover {
@@ -392,6 +405,18 @@ td:nth-child(3) {
 .content{
   display: flex;
 
+}
+.task-title{
+  width:8rem;
+  text-align: left;
+}
+.task-date{
+  width:8rem;
+  text-align: left;
+}
+.task-project{
+  width:8rem;
+  text-align: left;
 }
 
 .panel{
@@ -424,4 +449,22 @@ td:nth-child(3) {
 .error{
   color:red;
   text-align: center;
+}
+
+.bi-check-lg{
+color:green;
+}
+
+.bi-x-lg{
+color:red;
+}
+
+.check-button{
+  border: none !important;
+  margin-right: 0.2rem;;
+}
+
+s { 
+  text-decoration: line-through;
+  font-size:bold;
 }
