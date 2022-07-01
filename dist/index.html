@@ -11,7 +11,7 @@
     <div class="modal myModal">
       <div class="modal-content">
         <h1>Create a New Task!</h1>
-        <input type="text" id="taskName" placeholder="Task Name" />
+        <input type="text" id="taskName" placeholder="Task Name" maxlength="15" />
         <div class=" error task-error"></div>
         <textarea
           name="taskDesc"
@@ -29,9 +29,9 @@
         <div class="modal-priority">
           <label for="priority">Choose a priority:</label>
           <select name="priority" id="priority">
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>
+            <option value="3">High</option>
+            <option value="2">Medium</option>
+            <option value="1">Low</option>
           </select>
         </div>
         <div class="modal-project">
