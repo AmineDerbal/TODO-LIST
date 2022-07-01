@@ -365,10 +365,8 @@ export const displayProject = () => {
 
 const deleteProject = (projectListPosition) => {
   let projectsList = JSON.parse(localStorage.getItem("projectsList"));
-  deleteAllTasksOfProject(projectListPosition);
-  console.log(projectsList);
+  deleteAllTasksOfProject(projectListPosition); 
   projectsList.splice(projectListPosition, 1);
-  console.log(projectsList);
   localStorage.setItem("projectsList", JSON.stringify(projectsList));
   displayProject();
 
@@ -379,7 +377,8 @@ const deleteProject = (projectListPosition) => {
   displayAllTasks();
 };
 
-const editProject = (projectName, number) => {
+const editProject = (name,number) => {
+
   const editProjectModal = document.createElement("div");
   editProjectModal.className = "modal edit-project-modal";
   document.body.appendChild(editProjectModal);
@@ -391,7 +390,7 @@ const editProject = (projectName, number) => {
   const editProjectNameInput = document.createElement("input");
   editProjectNameInput.id = "editProjectName";
   editProjectNameInput.type = "text";
-  editProjectNameInput.placeholder = projectName;
+  editProjectNameInput.placeholder = name;
   projectModalContent.appendChild(editProjectNameInput);
 
   const projectNameError = document.createElement("div");
@@ -405,25 +404,27 @@ const editProject = (projectName, number) => {
   projectModalContent.appendChild(projectNameSubmitButton);
 
   projectNameSubmitButton.addEventListener("click", () => {
+    
     if (editProjectNameInput.value == "") {
       projectNameError.textContent = "please input project name";
+      return;
+    }
+
+   if (editProjectNameInput.value == name) {
+      projectNameError.textContent = "this is already your project name";
       return;
     }
     
     let projectsList = JSON.parse(localStorage.getItem("projectsList"));
     for(let projectPosition = 0; projectPosition < projectsList.length; projectPosition++){
-      if (projectNameInput.value == projectsList[projectPosition]){
-        if (editProjectNameInput.value == projectName) {
-          projectNameError.textContent = "this is already your project name";
-          return;
-        }
+      if (editProjectNameInput.value == projectsList[projectPosition]){
           projectNameError.textContent = "this project already exists";
           return;
       }
     }
 
     projectNameError.textContent = "";
-
+    
     projectsList[number] = editProjectNameInput.value;
     localStorage.setItem("projectsList", JSON.stringify(projectsList));
     let tasksList = JSON.parse(localStorage.getItem("tasks"));
@@ -437,16 +438,14 @@ const editProject = (projectName, number) => {
   }
 
     editProjectModal.parentElement.removeChild(editProjectModal);
+    displayProject();
   });
 };
 
 const deleteAllTasksOfProject = (projectListPosition) => {
   let tasksList = JSON.parse(localStorage.getItem("tasks"));
-  console.log("delete");
-  console.log(tasksList);
-
+ 
   for (let i = 0; i < tasksList.length; i++) {
-    console.log(tasksList[i].project);
     if (tasksList[i].project == projectListPosition) {
       tasksList.splice(i, 1);
       localStorage.setItem("tasks", JSON.stringify(tasksList));
