@@ -1,10 +1,21 @@
-import { displayAllTasks } from "./task";
-export const renderAllTasks = (tasksList) => {
+import { displayAllTasks,checkSelectedProject } from "./task";
+export const renderAllTasks = (tasksList,projectName) => {
   const content = document.querySelector(".content");
   content.innerHTML = "";
-  for (let taskPosition = 0; taskPosition < tasksList.length; taskPosition++) {
-   content.appendChild(renderProjectTask(tasksList,taskPosition));
+  if(projectName === undefined){
+    
+    for (let taskPosition = 0; taskPosition < tasksList.length; taskPosition++) {
+      content.appendChild(renderProjectTask(tasksList,taskPosition));
+     }
+     return;
   }
+  for (let taskPosition = 0; taskPosition < tasksList.length; taskPosition++) {
+    if(tasksList[taskPosition].project == projectName){
+      content.appendChild(renderProjectTask(tasksList,taskPosition));
+    }
+   }
+
+  
 };
 export const renderProjectTask = (tasksList, taskPosition)=>{
   let taskContainer = document.createElement("div");
@@ -27,27 +38,10 @@ export const renderProjectTask = (tasksList, taskPosition)=>{
   </tr>
  </table> `;
 
- priority.className = `priority priority-$(task.priority)`;
-
+ priority.className = "priority priority-"+tasksList[taskPosition].priority;
  todoTaskInfo.appendChild(priority);
 
- let taskTitle = document.createElement("span");
-    taskTitle.className = "task-title";
-    taskTitle.textContent = tasksList[taskPosition].title;
-    todoTaskInfo.appendChild(taskTitle);
-
-    let taskDate = document.createElement("span");
-    taskDate.className = "task-date";
-    taskDate.textContent = tasksList[taskPosition].dueDate;
-
-    todoTaskInfo.appendChild(taskDate);
-
-    let projectsList = JSON.parse(localStorage.getItem("projectsList"));
-    let taskProjectName = document.createElement("span");
-    taskProjectName.className = "task-project";
-    taskProjectName.textContent = projectsList[tasksList[taskPosition].project];
-    todoTaskInfo.appendChild(taskProjectName);
-
+ generateTaskByCompletedStatus(todoTaskInfo,tasksList,taskPosition);
     let groupButton = document.createElement("div");
     groupButton.className = "group-button";
     todoTaskInfo.appendChild(groupButton);
@@ -62,8 +56,26 @@ export const renderProjectTask = (tasksList, taskPosition)=>{
     let optionButton = document.createElement("button");
     optionButton.className = "option-button";
     optionButton.innerHTML = '<i class="bi bi-three-dots-vertical"></i>';
-
     groupButton.appendChild(optionButton);
+
+    let checkCompletedTaskButton = document.createElement("button");
+    checkCompletedTaskButton.className = "check-button";
+    checkCompletedTaskButton.innerHTML = checkTaskCompletedStatus(tasksList[taskPosition]);
+    groupButton.appendChild(checkCompletedTaskButton);
+    
+    checkCompletedTaskButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if(tasksList[taskPosition].completed == true){
+        tasksList[taskPosition].completed = false;
+
+      }else{
+        tasksList[taskPosition].completed = true
+      }
+      checkCompletedTaskButton.innerHTML = checkTaskCompletedStatus(tasksList[taskPosition]);
+      generateNewStatusChangedTask(todoTaskInfo,tasksList[taskPosition]);
+     localStorage.setItem("tasks", JSON.stringify(tasksList));
+
+    })
 
     let dropDown = document.createElement("div");
     dropDown.className = "dropdown-content";
@@ -122,7 +134,13 @@ const togglePanel = (panel) => {
 const removeTask = (tasksList, taskPosition) => {
   tasksList.splice(taskPosition, 1);
   localStorage.setItem("tasks", JSON.stringify(tasksList));
-  displayAllTasks();
+  const projectName = checkSelectedProject();
+  if(projectName === undefined){
+    displayAllTasks();
+  }else{
+
+    displayAllTasks(projectName);
+  }
 };
 
 const editTask = (tasks, taskPosition) => {
@@ -142,6 +160,7 @@ const editTask = (tasks, taskPosition) => {
   taskName.type = "text";
   taskName.placeholder = "Task Name";
   taskName.value = tasks[taskPosition].title;
+  taskName.maxLength = '15';
   modalContent.appendChild(taskName);
 
   const taskError = document.createElement("div");
@@ -275,13 +294,19 @@ export const displayProject = () => {
     return;
   }
 
-  for (let i = 0; i < projectsList.length; i++) {
+  for (let projectPosition = 0; projectPosition < projectsList.length; projectPosition++) {
     const list = document.createElement("ul");
-    list.setAttribute("data-project", i);
+    list.setAttribute("data-project", projectPosition);
     list.className = "project-list"
-    list.id = "project" + i;
+    list.id = "project" + projectPosition;
     project.appendChild(list);
-    list.addEventListener("click", displayProjectToggle);
+    list.addEventListener("click",(e) =>{
+      displayProjectToggle(e);
+      displayAllTasks(projectPosition);
+      
+      
+      
+    });
 
     const sideNav = document.createElement("button");
     sideNav.className = "side-nav";
@@ -306,7 +331,7 @@ export const displayProject = () => {
     projectEditButton.addEventListener("click", (e) => {
       e.stopPropagation();
       hideAllDropDownElements();
-      editProject(projectsList[i], i);
+      editProject(projectsList[projectPosition], projectPosition);
     });
 
     const projectDeleteButton = document.createElement("button");
@@ -323,16 +348,16 @@ export const displayProject = () => {
 
     projectDeleteButton.addEventListener("click", (e) => {
       e.stopPropagation();
-      deleteProject(i);
+      deleteProject(projectPosition);
     });
 
     const Name = document.createElement("span");
-    Name.textContent = projectsList[i];
+    Name.textContent = projectsList[projectPosition];
     list.appendChild(Name);
 
     let option = document.createElement("option");
-    option.value = i;
-    option.innerHTML = projectsList[i];
+    option.value = projectPosition;
+    option.innerHTML = projectsList[projectPosition];
     projects.appendChild(option);
   }
 
@@ -370,7 +395,7 @@ const editProject = (projectName, number) => {
   projectModalContent.appendChild(editProjectNameInput);
 
   const projectNameError = document.createElement("div");
-  projectNameError.className = "project-name-error";
+  projectNameError.className = "error project-name-error";
   projectModalContent.appendChild(projectNameError);
 
   const projectNameSubmitButton = document.createElement("button");
@@ -384,18 +409,32 @@ const editProject = (projectName, number) => {
       projectNameError.textContent = "please input project name";
       return;
     }
-    if (editProjectNameInput.value == projectName) {
-      projectNameError.textContent = "this is already your project name";
-      return;
+    
+    let projectsList = JSON.parse(localStorage.getItem("projectsList"));
+    for(let projectPosition = 0; projectPosition < projectsList.length; projectPosition++){
+      if (projectNameInput.value == projectsList[projectPosition]){
+        if (editProjectNameInput.value == projectName) {
+          projectNameError.textContent = "this is already your project name";
+          return;
+        }
+          projectNameError.textContent = "this project already exists";
+          return;
+      }
     }
+
     projectNameError.textContent = "";
 
-    let projectsList = JSON.parse(localStorage.getItem("projectsList"));
     projectsList[number] = editProjectNameInput.value;
     localStorage.setItem("projectsList", JSON.stringify(projectsList));
     let tasksList = JSON.parse(localStorage.getItem("tasks"));
     renderAllTasks(tasksList);
-    displayProject();
+    const projectName = checkSelectedProject();
+  if(projectName === undefined){
+    displayAllTasks();
+  }else{
+
+    displayAllTasks(projectName);
+  }
 
     editProjectModal.parentElement.removeChild(editProjectModal);
   });
@@ -434,16 +473,86 @@ export const hideAllDropDownElements = () => {
   });
 };
 
-const displayProjectToggle = (event) =>{
+const displayProjectToggle = (e) =>{
+  hideAllDropDownElements();
   let projectList = Array.from(document.querySelectorAll(".project-list"));
   
   projectList.forEach((element) =>{
      element.classList.remove("project-active");
 
   });
-  if(event.target.matches("span")){
-    event.target.parentElement.classList.toggle("project-active");
+ 
+  if(e.target.matches("span")){
+    e.target.parentElement.classList.toggle("project-active");
    return;
   }
-  event.target.classList.toggle("project-active");
+  e.target.classList.toggle("project-active");
+}
+
+const generateTaskByCompletedStatus = (todoTaskInfo,tasksList,taskPosition) => {
+  let element;
+  if (tasksList[taskPosition].completed) {
+     element = "s";
+  }else{
+    element = "span";
+  }
+    let taskTitle = document.createElement(element);
+    taskTitle.className = "task-title";
+    taskTitle.textContent = tasksList[taskPosition].title;
+    todoTaskInfo.appendChild(taskTitle);
+
+    let taskDate = document.createElement(element);
+    taskDate.className = "task-date";
+    taskDate.textContent = tasksList[taskPosition].dueDate;
+
+    todoTaskInfo.appendChild(taskDate);
+
+    let projectsList = JSON.parse(localStorage.getItem("projectsList"));
+    let taskProjectName = document.createElement(element);
+    taskProjectName.className = "task-project";
+    taskProjectName.textContent = projectsList[tasksList[taskPosition].project];
+    todoTaskInfo.appendChild(taskProjectName);
+  
+}
+
+const checkTaskCompletedStatus = (task) => {
+  let innerHTML
+  if (task.completed) {
+     innerHTML = '<i class="bi bi-check-lg"></i>';
+     return innerHTML;
+    }
+    
+    innerHTML = '<i class="bi bi-x-lg"></i>';
+    return innerHTML;
+
+}
+
+const generateNewStatusChangedTask = (todoTaskInfo,task)=>{
+  const taskTitle = todoTaskInfo.children[1];
+  const taskDate = todoTaskInfo.children[2];
+  const taskProject = todoTaskInfo.children[3];
+  
+  let element;
+  if (task.completed) {
+    element = "s";
+ }else{
+   element = "span";
+ }
+
+ let newTaskTitle = document.createElement(element);
+    newTaskTitle.className = "task-title";
+    newTaskTitle.textContent = taskTitle.textContent;
+    todoTaskInfo.replaceChild(newTaskTitle,taskTitle);
+    
+    let newTaskDate = document.createElement(element);
+    newTaskDate.className = "task-date";
+    newTaskDate.textContent = taskDate.textContent;
+    todoTaskInfo.replaceChild(newTaskDate,taskDate);
+
+    let projectsList = JSON.parse(localStorage.getItem("projectsList"));
+    let newTaskProjectName = document.createElement(element);
+    newTaskProjectName.className = "task-project";
+    newTaskProjectName.textContent = projectsList[task.project];
+    todoTaskInfo.replaceChild(newTaskProjectName,taskProject);
+ 
 }
