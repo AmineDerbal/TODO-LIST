@@ -1,4 +1,4 @@
-import {displayProject} from "./render"
+import { displayProject } from "./render";
 
 export const newProjectModal = () => {
   const projectModal = document.createElement("div");
@@ -18,7 +18,7 @@ export const newProjectModal = () => {
   projectModalContent.appendChild(projectNameInput);
 
   const projectNameError = document.createElement("div");
-  projectNameError.className = "project-name-error";
+  projectNameError.className = "error project-name-error";
   projectModalContent.appendChild(projectNameError);
 
   const projectNameSubmitButton = document.createElement("button");
@@ -27,21 +27,27 @@ export const newProjectModal = () => {
   projectNameSubmitButton.textContent = "Submit";
   projectModalContent.appendChild(projectNameSubmitButton);
 
-  projectNameSubmitButton.addEventListener("click",()=>{
-    if(projectNameInput.value == ""){
+  projectNameSubmitButton.addEventListener("click", () => {
+    if (projectNameInput.value == "") {
       projectNameError.textContent = "please input project name";
       return;
     }
     
-      projectNameError.textContent = "";
+    let projectsList = JSON.parse(localStorage.getItem("projectsList"));
+    for(let projectPosition = 0; projectPosition < projectsList.length; projectPosition++){
+      if (projectNameInput.value == projectsList[projectPosition]){
+          projectNameError.textContent = "this project already exists";
+          return;
+      }
+    }
     
-     let projectsList = JSON.parse(localStorage.getItem("projectsList"));
-     projectsList.push(projectNameInput.value);
-     
-     localStorage.setItem("projectsList", JSON.stringify(projectsList));
-     displayProject();
-     projectModal.style.display = "none";
 
+    projectNameError.textContent = "";
 
-  })
+    projectsList.push(projectNameInput.value);
+    localStorage.setItem("projectsList", JSON.stringify(projectsList));
+    displayProject();
+    projectNameInput.value = "";
+    projectModal.style.display = "none";
+  });
 };
