@@ -207,17 +207,17 @@ const editTask = (tasks, taskPosition) => {
   modalPriority.appendChild(priority);
   
   const optionHigh = document.createElement("option");
-  optionHigh.value = "High";
+  optionHigh.value = "3";
   optionHigh.textContent = "High";
   priority.appendChild(optionHigh);
   
   const optionMedium = document.createElement("option");
-  optionMedium.value = "Medium";
+  optionMedium.value = "2";
   optionMedium.textContent = "Medium";
   priority.appendChild(optionMedium);
   
   const optionLow = document.createElement("option");
-  optionLow.value = "Low";
+  optionLow.value = "1";
   optionLow.textContent = "Low";
   priority.appendChild(optionLow);
   priority.value = tasks[taskPosition].priority;
