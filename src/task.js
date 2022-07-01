@@ -39,8 +39,13 @@ addTask.addEventListener("click", () => {
   tasksList.push(task);
   localStorage.setItem("tasks", JSON.stringify(tasksList));
   cancelModalTask();
+  const projectName = checkSelectedProject();
+  if(projectName === undefined){
+    displayAllTasks();
+  }else{
 
-  displayAllTasks();
+    displayAllTasks(projectName);
+  }
 });
 
 const cancelModalTask = () => {
@@ -53,13 +58,32 @@ cancel.addEventListener("click", () => {
   cancelModalTask();
 });
 
-export const displayAllTasks = () => {
+export const displayAllTasks = (projectName) => {
   if (!localStorage.getItem("tasks")) {
     tasksList = [];
     return;
   }
 
   tasksList = JSON.parse(localStorage.getItem("tasks"));
-
-  renderAllTasks(tasksList);
+  if (projectName === undefined){
+    renderAllTasks(tasksList); 
+    return;
+  }
+  renderAllTasks(tasksList,projectName);
+  
 };
+
+export const checkSelectedProject = ()=>{
+  let projectList = Array.from(document.querySelectorAll(".project-list"));
+  let projectName;
+  projectList.forEach((element) =>{
+   if (element.classList.contains("project-active")){
+    console.log(element.getAttribute('data-project'));
+     projectName = element.getAttribute('data-project');
+    
+   }
+   
+ });
+  return projectName;
+
+}
